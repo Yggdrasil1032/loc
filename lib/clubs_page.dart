@@ -22,19 +22,19 @@ class _ClubsPageState extends State<ClubsPage> {
     // Navigasyon kontrolü
     switch (index) {
       case 0:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MainPage()),
         );
         break;
       case 1:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MealMenuScreen()),
         );
         break;
       case 2:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ToDoHomePage()),
         );
@@ -54,92 +54,92 @@ class _ClubsPageState extends State<ClubsPage> {
       {
         "name": "Sci-Tech",
         "image": "assets/sci_tech.png",
-        "instagram": "https://instagram.com/sci_tech"
+        "instagram": "https://instagram.com/agu_scitech"
       },
       {
         "name": "Alumni",
         "image": "assets/alumni.png",
-        "instagram": "https://instagram.com/alumni"
+        "instagram": "https://instagram.com/agualumniclub"
       },
       {
         "name": "Kültür Edebiyat",
         "image": "assets/kultur.png",
-        "instagram": "https://instagram.com/kultur"
+        "instagram": "https://instagram.com/aguedebiyat"
       },
       {
         "name": "Personal Net.",
         "image": "assets/pernet.png",
-        "instagram": "https://instagram.com/pernet"
+        "instagram": "https://instagram.com/personal.networking"
       },
       {
         "name": "Tech. In.",
         "image": "assets/techino.png",
-        "instagram": "https://instagram.com/techino"
+        "instagram": "https://instagram.com/agutechnicalinnovationclub"
       },
       {
         "name": "Yapı",
         "image": "assets/yapi.png",
-        "instagram": "https://instagram.com/yapi"
+        "instagram": "https://instagram.com/aguyapikulubu"
       },
       {
         "name": "Lösev",
         "image": "assets/losev.png",
-        "instagram": "https://instagram.com/losev"
+        "instagram": "https://instagram.com/agulosev"
       },
       {
         "name": "SWE",
         "image": "assets/swe.png",
-        "instagram": "https://instagram.com/swe"
+        "instagram": "https://instagram.com/swe_agu"
       },
       {
         "name": "Women in Business",
         "image": "assets/wib.png",
-        "instagram": "https://instagram.com/wib"
+        "instagram": "https://instagram.com/aguwomeninbusiness"
       },
       {
         "name": "Kızılay",
         "image": "assets/kizilay.png",
-        "instagram": "https://instagram.com/kizilay"
+        "instagram": "https://instagram.com/genckizilayagu"
       },
       {
         "name": "Computer Society",
         "image": "assets/compsoc.png",
-        "instagram": "https://instagram.com/computersoc"
+        "instagram": "https://instagram.com/agucomputersociety"
       },
       {
         "name": "Business",
         "image": "assets/business.png",
-        "instagram": "https://instagram.com/business"
+        "instagram": "https://instagram.com/agubusinessclub"
       },
       {
         "name": "Genç Tema",
         "image": "assets/tema.png",
-        "instagram": "https://instagram.com/tema"
+        "instagram": "https://instagram.com/agugenctema"
       },
       {
         "name": "Gaming",
         "image": "assets/gaming.png",
-        "instagram": "https://instagram.com/gaming"
+        "instagram": "https://instagram.com/agugamingclub"
       },
       {
         "name": "YAK",
         "image": "assets/yoneylem.png",
-        "instagram": "https://instagram.com/yoneylem"
+        "instagram": "https://instagram.com/aguyak"
       },
       {
         "name": "Sports",
         "image": "assets/sports.png",
-        "instagram": "https://instagram.com/sports"
+        "instagram": "https://instagram.com/agu_sports"
       },
       {
         "name": "Idea Camp",
         "image": "assets/idea.png",
-        "instagram": "https://instagram.com/idea"
+        "instagram": "https://instagram.com/aguidc"
       },
       {
         "name": "Inter. Assoc.",
         "image": "assets/aia.png",
-        "instagram": "https://instagram.com/aia"
+        "instagram": "https://instagram.com/aia_agu"
       },
     ];
 
@@ -169,20 +169,30 @@ class _ClubsPageState extends State<ClubsPage> {
                       final String? url = clubs[index]['instagram']; // URL alınır
                       if (url != null) {
                         final Uri uri = Uri.parse(url);
-                        if (await canLaunchUrl(uri)) {
-                          await launchUrl(
-                            uri,
-                            mode: LaunchMode.inAppWebView, // Dış tarayıcıda aç
-                          );
-                        } else {
-                          debugPrint("URL açılamıyor: $url");
+                        try {
+                          // Try opening the URL in the in-app WebView
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(
+                              uri,
+                              mode: LaunchMode.inAppWebView, // Try to open inside the app
+                            );
+                          } else {
+                            // If inAppWebView failed, open the URL in the external browser
+                            await launchUrl(
+                              uri,
+                              mode: LaunchMode.externalApplication, // Open in external browser
+                            );
+                          }
+                        } catch (e) {
+                          // Catch any errors that occur during URL launching
+                          debugPrint("Hata oluştu: $e");
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Instagram linki açılamıyor')),
+                            SnackBar(content: Text('Bir hata oluştu: $e')),
                           );
                         }
                       }
-                    },
-                    child: CircleAvatar(
+                    }
+                    , child: CircleAvatar(
                       backgroundImage: AssetImage(clubs[index]['image']!),
                       radius: 40,
                     ),

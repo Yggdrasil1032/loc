@@ -113,7 +113,7 @@ class _MealMenuScreenState extends State<MealMenuScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_image.png"),
+            image: AssetImage("assets/img_background_design.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -129,6 +129,7 @@ class _MealMenuScreenState extends State<MealMenuScreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
               elevation: 6,
+              color: Colors.white70,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -142,7 +143,7 @@ class _MealMenuScreenState extends State<MealMenuScreen> {
                         color: Colors.teal[800],
                       ),
                     ),
-                    Divider(color: Colors.grey[300], thickness: 1),
+                    Divider(color: Colors.black, thickness: 1),
                     _buildMenuItem(
                       title: "Soup",
                       value: menu['soup'],

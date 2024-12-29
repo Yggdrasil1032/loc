@@ -36,16 +36,6 @@ class MainPage extends StatelessWidget {
         context,
         MaterialPageRoute(builder: (context) => NotificationPage(role: role)), // Navigate to NotificationPage
       );
-    } else if (screenName == 'Admin Dashboard' && role == 'admin') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PlaceholderScreen('Admin Dashboard')),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PlaceholderScreen(screenName)),
-      );
     }
   }
 
@@ -119,11 +109,9 @@ class MainPage extends StatelessWidget {
                 onPressed: () => _logout(context), // Call the logout function when pressed
               ),
             ],
-            backgroundColor: Colors.transparent, // Make the background transparent
+            backgroundColor: Colors.black87, // Make the background transparent
             elevation: 0, // Remove the shadow
-            flexibleSpace: Container(
-              color: Colors.black, // Ensure no background color
-            ),
+
           ),
 
           body: Container(
@@ -182,13 +170,6 @@ class MainPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (role == 'admin') ...[
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () => navigateTo(context, 'Admin Dashboard', role),
-                      child: Text('Admin Dashboard'),
-                    ),
-                  ],
                 ],
               ),
             ),
@@ -199,27 +180,7 @@ class MainPage extends StatelessWidget {
   }
 }
 
-// Placeholder screen for other pages (like Daily Menu)
-class PlaceholderScreen extends StatelessWidget {
-  final String screenName;
 
-  PlaceholderScreen(this.screenName);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(screenName),
-      ),
-      body: Center(
-        child: Text(
-          'Welcome to $screenName!',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-}
 
 // URL launcher for the Booked page
 final String url = "https://booked.agu.edu.tr/Web/";
