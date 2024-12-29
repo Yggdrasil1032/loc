@@ -1,139 +1,144 @@
 import 'package:flutter/material.dart';
-import 'clubs_page.dart';
-import 'to-do.dart';
-// Import the new clubs page
-import 'package:url_launcher/url_launcher.dart';
+import 'package:life_on_campus/to-do.dart';
+import 'package:url_launcher/url_launcher.dart'; // URL açmak için gerekli paket
 
-void main() {
-  runApp(MyApp());
+import 'main_page.dart'; // MainPage() sayfası için gerekli import
+import 'daily_menu.dart'; // MealMenuScreen() sayfası için gerekli import
+import 'to-do.dart'; // ToDoHomePage() sayfası için gerekli import
+
+class ClubsPage extends StatefulWidget {
+  @override
+  _ClubsPageState createState() => _ClubsPageState();
 }
 
-class MyApp extends StatelessWidget {
+class _ClubsPageState extends State<ClubsPage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Navigasyon kontrolü
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainPage()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MealMenuScreen()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ToDoHomePage()),
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MainPage(),
-    );
-  }
-}
+    // Kulüplerin isimleri, resimleri ve Instagram linkleri
+    final List<Map<String, String>> clubs = [
+      {"name": "IEEE", "image": "assets/ieee.png", "instagram": "https://www.instagram.com/ieee_agu/"},
+      {"name": "Sci-Tech", "image": "assets/sci_tech.png", "instagram": "https://instagram.com/sci_tech"},
+      {"name": "Alumni", "image": "assets/alumni.png", "instagram": "https://instagram.com/alumni"},
+      {"name": "Kültür Edebiyat", "image": "assets/kultur.png", "instagram": "https://instagram.com/kultur"},
+      {"name": "Personal Net.", "image": "assets/pernet.png", "instagram": "https://instagram.com/pernet"},
+      {"name": "Tech. In.", "image": "assets/techino.png", "instagram": "https://instagram.com/techino"},
+      {"name": "Yapı", "image": "assets/yapi.png", "instagram": "https://instagram.com/yapi"},
+      {"name": "Lösev", "image": "assets/losev.png", "instagram": "https://instagram.com/losev"},
+      {"name": "SWE", "image": "assets/swe.png", "instagram": "https://instagram.com/swe"},
+      {"name": "Women in Business", "image": "assets/wib.png", "instagram": "https://instagram.com/wib"},
+      {"name": "Kızılay", "image": "assets/kizilay.png", "instagram": "https://instagram.com/kizilay"},
+      {"name": "Computer Society", "image": "assets/compsoc.png", "instagram": "https://instagram.com/computersoc"},
+      {"name": "Business", "image": "assets/business.png", "instagram": "https://instagram.com/business"},
+      {"name": "Genç Tema", "image": "assets/tema.png", "instagram": "https://instagram.com/tema"},
+      {"name": "Gaming", "image": "assets/gaming.png", "instagram": "https://instagram.com/gaming"},
+      {"name": "YAK", "image": "assets/yoneylem.png", "instagram": "https://instagram.com/yoneylem"},
+      {"name": "Sports", "image": "assets/sports.png", "instagram": "https://instagram.com/sports"},
+      {"name": "Idea Camp", "image": "assets/idea.png", "instagram": "https://instagram.com/idea"},
+      {"name": "Inter. Assoc.", "image": "assets/aia.png", "instagram": "https://instagram.com/aia"},
+    ];
 
-class MainPage extends StatelessWidget {
-  void navigateTo(BuildContext context, String screenName) {
-    if (screenName == 'Clubs') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ClubsPage()), // Navigate to the ClubsPage
-      );
-    }
-    else if (screenName == 'To-Dos') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ToDoHomePage()), // ToDoHomePage widget'ını çağırıyoruz
-      );
-    }
-    else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PlaceholderScreen(screenName)),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/img_background_design.png'), // Background image
-            fit: BoxFit.cover,
+            image: AssetImage('assets/img_background_design.png'), // Arka plan görseli
+            fit: BoxFit.cover, // Resmi ekrana göre boyutlandır
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Clubs button
-                  GestureDetector(
-                    onTap: () => navigateTo(context, 'Clubs'),
-                    child: Image.asset(
-                      'assets/clubs.png', // Clubs PNG file
-                      width: 150,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  // Daily Menu button
-                  GestureDetector(
-                    onTap: () => navigateTo(context, 'Daily Menu'),
-                    child: Image.asset(
-                      'assets/daily_menu.png', // Daily Menu PNG file
-                      width: 150,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Maps button
-                  GestureDetector(
-                    onTap: () => _launchBooked(),
-                    child: Image.asset(
-                      'assets/booked_page.png', // Maps PNG file
-                      width: 165,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  // To-Dos button
-                  GestureDetector(
-                    onTap: () => navigateTo(context, 'To-Dos'),
-                    child: Image.asset(
-                      'assets/todo.png', // To-Dos PNG file
-                      width: 160,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3, // Ekranda satır başına 3 öğe
+            crossAxisSpacing: 10.0,
+            mainAxisSpacing: 10.0,
           ),
+          itemCount: clubs.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Column(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {
+                      final String? url = clubs[index]['instagram']; // URL alınır
+                      if (url != null) {
+                        debugPrint("Açılacak URL: $url");
+                        final Uri uri = Uri.parse(url);
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri, mode: LaunchMode.externalApplication); // Dış tarayıcıda aç
+                        } else {
+                          debugPrint("URL geçersiz veya açılamıyor.");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Instagram linki açılamıyor')),
+                          );
+                        }
+                      }
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage(clubs[index]['image']!),
+                      radius: 40,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  clubs[index]['name']!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                ),
+              ],
+            );
+          },
         ),
       ),
-    );
-  }
-}
-
-// Placeholder screen for other pages
-class PlaceholderScreen extends StatelessWidget {
-  final String screenName;
-
-  PlaceholderScreen(this.screenName);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(screenName),
-      ),
-      body: Center(
-        child: Text(
-          'Welcome to $screenName!',
-          style: TextStyle(fontSize: 24),
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant_menu),
+            label: 'Menu',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.check_circle),
+            label: 'To-Do',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.teal,
+        onTap: _onItemTapped,
       ),
     );
-  }
-}
-
-// URL launcher for the Booked page
-final String url = "https://booked.agu.edu.tr/Web/";
-
-void _launchBooked() async {
-  Uri uri = Uri.parse(url);
-  if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-    throw 'Could not launch $url';
   }
 }

@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
+import 'package:life_on_campus/to-do.dart';
+
+import 'clubs_page.dart'; // ClubsPage sınıfının bulunduğu dosya
+import 'main_page.dart'; // MainPage sınıfının bulunduğu dosya
+import 'to-do.dart'; // ToDoHomePage sınıfının bulunduğu dosya
 
 void main() {
   runApp(MyApp());
@@ -23,6 +28,7 @@ class MealMenuScreen extends StatefulWidget {
 
 class _MealMenuScreenState extends State<MealMenuScreen> {
   List<Map<String, dynamic>>? menuData;
+  int _selectedIndex = 1; // Başlangıçta bu sayfa seçili olacak.
 
   @override
   void initState() {
@@ -73,56 +79,161 @@ class _MealMenuScreenState extends State<MealMenuScreen> {
     });
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Sayfa geçişleri
+    if (index == 0) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ClubsPage()),
+      );
+    } else if (index == 1) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MealMenuScreen()),
+      );
+    } else if (index == 2) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ToDoHomePage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Meal Menu")),
-        body: menuData == null
+      appBar: AppBar(
+        title: Text("Meal Menu"),
+        backgroundColor: Colors.teal,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: menuData == null
             ? Center(child: CircularProgressIndicator())
             : ListView.builder(
-            itemCount: menuData!.length,
-            itemBuilder: (context, index) {
-              final menu = menuData![index];
-              return Card(
-                margin: EdgeInsets.all(8.0),
-                child: ListTile(
-                  title: Text(
-                    "${menu['date']} - ${menu['day']}",
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Soup: ${menu['soup']} \n (${menu['soup_calories']} kcal)",
-                        style: TextStyle(fontSize: 20.0),
+          itemCount: menuData!.length,
+          itemBuilder: (context, index) {
+            final menu = menuData![index];
+            return Card(
+              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 6,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${menu['date']} - ${menu['day']}",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal[800],
                       ),
-                      Text(
-                        "Main Dish: ${menu['main_course']} \n (${menu['main_course_calories']} kcal)",
-                        style: TextStyle(fontSize: 20.0),
+                    ),
+                    Divider(color: Colors.grey[300], thickness: 1),
+                    _buildMenuItem(
+                      title: "Soup",
+                      value: menu['soup'],
+                      calories: menu['soup_calories'],
+                    ),
+                    _buildMenuItem(
+                      title: "Main Dish",
+                      value: menu['main_course'],
+                      calories: menu['main_course_calories'],
+                    ),
+                    _buildMenuItem(
+                      title: "Vegetarian",
+                      value: menu['vegetarian'],
+                      calories: menu['vegetarian_calories'],
+                    ),
+                    _buildMenuItem(
+                      title: "Side Dish",
+                      value: menu['side_dish'],
+                      calories: menu['side_dish_calories'],
+                    ),
+                    _buildMenuItem(
+                      title: "Complementary",
+                      value: menu['complementary'],
+                      calories: menu['complementary_calories'],
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Total Calories: ${menu['total_calories']} kcal",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.redAccent,
                       ),
-                      Text(
-                        "Vegetarian: ${menu['vegetarian']} \n (${menu['vegetarian_calories']} kcal)",
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      Text(
-                        "Side Dish: ${menu['side_dish']} \n (${menu['side_dish_calories']} kcal)",
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      Text(
-                        "Complementary: ${menu['complementary']} \n (${menu['complementary_calories']} kcal)",
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      Text(
-                        "Total Calories: ${menu['total_calories']} ",
-                        style: TextStyle(fontSize: 25.0),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              );
-            },
+              ),
+            );
+          },
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.teal,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.groups),
+            label: 'Clubs',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant_menu),
+            label: 'Menu',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.check_circle),
+            label: 'To-Do',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuItem({required String title, dynamic value, dynamic calories}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              "$title:",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.teal[600],
+              ),
             ),
-        );
-    }
+          ),
+          Expanded(
+            flex: 4,
+            child: Text(
+              "$value (${calories ?? 0} kcal)",
+              style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
