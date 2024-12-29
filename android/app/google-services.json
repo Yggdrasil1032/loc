@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "787458459829",
+    "project_id": "life-on-campus-16ec9",
+    "storage_bucket": "life-on-campus-16ec9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787458459829:android:e551266b59e0b3fec5d6fc",
+        "android_client_info": {
+          "package_name": "com.example.life_on_campus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ2zkAn0nhAcCtCmWJW69dMzkRAKRbiYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
