@@ -63,11 +63,10 @@ class _LoginPageState extends State<LoginPage> {
 
         body: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/img_background_design.png'),
-              // Arka plan resmi
-              fit: BoxFit.cover, // Resmi ekranı kaplayacak şekilde ölçeklendir
-            ),
+              image: DecorationImage(
+                image: AssetImage('assets/img_background_design.png'),
+                fit: BoxFit.cover,
+              )
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -75,7 +74,6 @@ class _LoginPageState extends State<LoginPage> {
 
             Column(
               children: [
-                SizedBox(height: 280),
                 TextField(
                   controller: _emailController,
                   style: TextStyle(color: Colors.white), // Yazı rengi

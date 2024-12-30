@@ -21,19 +21,22 @@ class _ToDoHomePageState extends State<ToDoHomePage> {
 
     // Sayfa geçişleri
     if (index == 0) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => ClubsPage()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
       );
     } else if (index == 1) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => MainPage()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
       );
     } else if (index == 2) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => MealMenuScreen()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
       );
     }
   }

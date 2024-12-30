@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore for user roles and notifications
+import 'package:life_on_campus/weather_page.dart';
 import 'daily_menu.dart'; // Replace with the correct path to the daily_menu.dart file
 import 'clubs_page.dart'; // Replace with the correct path to the clubs_page.dart file
 import 'to-do.dart'; // Replace with the correct path to the to-do.dart file
@@ -36,6 +37,9 @@ class MainPage extends StatelessWidget {
         context,
         MaterialPageRoute(builder: (context) => NotificationPage(role: role)), // Navigate to NotificationPage
       );
+    } else if(screenName == 'Wheather Page'){
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => WeatherPage()));
     }
   }
 
@@ -94,6 +98,12 @@ class MainPage extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 24),
             ),
             actions: [
+              IconButton(
+                icon: Icon(Icons.cloud,
+                color: Colors.white,
+                ),
+                onPressed: () => navigateTo(context, 'Wheather Page', role),
+              ),
               IconButton(
                 icon: Icon(
                   Icons.notifications,

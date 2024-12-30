@@ -20,25 +20,24 @@ class _ClubsPageState extends State<ClubsPage> {
     });
 
     // Navigasyon kontrolü
-    switch (index) {
-      case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MainPage()),
-        );
-        break;
-      case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MealMenuScreen()),
-        );
-        break;
-      case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ToDoHomePage()),
-        );
-        break;
+    if (index == 0) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainPage()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
+      );
+    } else if (index == 1) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MealMenuScreen()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
+      );
+    } else if (index == 2) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => ToDoHomePage()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
+      );
     }
   }
 

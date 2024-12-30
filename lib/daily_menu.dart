@@ -86,19 +86,22 @@ class _MealMenuScreenState extends State<MealMenuScreen> {
 
     // Sayfa geçişleri
     if (index == 0) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => ClubsPage()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
       );
     } else if (index == 1) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => MealMenuScreen()),
+        MaterialPageRoute(builder: (context) => MainPage()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
       );
     } else if (index == 2) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => ToDoHomePage()),
+            (Route<dynamic> route) => false, // Tüm önceki sayfaları temizler
       );
     }
   }
@@ -197,8 +200,8 @@ class _MealMenuScreenState extends State<MealMenuScreen> {
             label: 'Clubs',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu),
-            label: 'Menu',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.check_circle),
