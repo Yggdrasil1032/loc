@@ -201,7 +201,7 @@ class _ClubsPageState extends State<ClubsPage> {
                 Text(
                   clubs[index]['name']!,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ],
             );
