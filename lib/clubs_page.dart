@@ -233,11 +233,10 @@ class _ClubsPageState extends State<ClubsPage> {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         selectedLabelStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
+          fontSize: 13,
         ),
         unselectedLabelStyle: TextStyle(
-          fontSize: 11,
+          fontSize: 13,
         ),
         onTap: _onItemTapped,
         elevation: 8,
