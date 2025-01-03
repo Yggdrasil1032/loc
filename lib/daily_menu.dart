@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -110,7 +111,8 @@ class _MealMenuScreenState extends State<MealMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Meal Menu"),
+        title: Text("Meal Menu",style: TextStyle(fontSize: 35,color: Colors.black),),
+        centerTitle: true,
         backgroundColor: Colors.teal,
       ),
       body: Container(
@@ -191,20 +193,21 @@ class _MealMenuScreenState extends State<MealMenuScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Colors.white,
+        backgroundColor: CupertinoColors.darkBackgroundGray,
         showUnselectedLabels: true,
         onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
+            icon: Icon(Icons.groups,color: Colors.white,),
             label: 'Clubs',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home,color: Colors.white,),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle),
+            icon: Icon(Icons.check_circle,color: Colors.white,),
             label: 'To-Do',
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -57,10 +58,16 @@ class _NotificationPageState extends State<NotificationPage> {
           Column(
             children: [
               AppBar(
-                title: Text('Announcements', style: TextStyle(color: Colors.teal,fontSize: 31)),
+                title: Text(
+                  'Announcements',
+                  style: TextStyle(color: Colors.teal, fontSize: 31),
+                ),
                 centerTitle: true,
-                backgroundColor: Colors.white10,
+                backgroundColor: CupertinoColors.transparent,
                 elevation: 0,
+                iconTheme: IconThemeData(
+                  color: Colors.white, // Geri dönüş simgesinin rengi
+                ),
               ),
               if (widget.role == 'admin') ...[
                 Padding(
@@ -162,9 +169,9 @@ class _NotificationPageState extends State<NotificationPage> {
                           ),
                           color: Colors.white.withOpacity(0.9),
                           child: ListTile(
-                            title: Text(data['title'] ?? 'No Title', style: TextStyle(fontWeight: FontWeight.bold)),
-                            subtitle: Text(data['content'] ?? 'Nothing here', maxLines: 2, overflow: TextOverflow.ellipsis),
-                            trailing: Icon(Icons.chevron_right),
+                            title: Text(data['title'] ?? 'No Title', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
+                            subtitle: Text(data['content'] ?? 'Nothing here', maxLines: 2, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 16),),
+                              trailing: Icon(Icons.chevron_right, color: Colors.black87),
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -223,7 +230,8 @@ class NotificationDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notification Details'),
+        backgroundColor: CupertinoColors.darkBackgroundGray,
+        title: Text('Notification Details',style: TextStyle(fontSize: 31,color: Colors.white),),
         actions: role == 'admin'
             ? [
           IconButton(
@@ -254,31 +262,47 @@ class NotificationDetailPage extends StatelessWidget {
           ),
         ]
             : null,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              timestamp != null
-                  ? DateTime.parse(timestamp!.toDate().toString()).toString()
-                  : 'No Timestamp',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-            SizedBox(height: 20),
-            Text(
-              content,
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
+
+        iconTheme: IconThemeData(
+          color: Colors.white, // Geri dönüş simgesinin rengi
         ),
       ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/notification_background.png'),
+            fit: BoxFit.cover, // Arka planı tamamen kaplar
+          ),
+        ),
+        width: double.infinity, // Tüm ekran genişliği
+        height: double.infinity, // Tüm ekran yüksekliği
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: CupertinoColors.systemYellow),
+              ),
+              SizedBox(height: 10),
+              Text(
+                timestamp != null
+                    ? DateTime.parse(timestamp!.toDate().toString()).toString()
+                    : 'No Timestamp',
+                style: TextStyle(fontSize: 14, color: Colors.white70),
+              ),
+              SizedBox(height: 20),
+              Text(
+                content,
+                style: TextStyle(fontSize: 18,color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+
     );
   }
 }

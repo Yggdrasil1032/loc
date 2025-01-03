@@ -43,13 +43,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
     String? token = await messaging.getToken();
 
     // Token'ı aldığımıza emin oluyoruz
-    if (token != null) {
-      print("Firebase Messaging Token: $token");
-      // Token'ı ekranda gösterebiliriz
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Token: $token")));
-    } else {
-      print("Token alınamadı.");
-    }
+
   }
 
   @override
